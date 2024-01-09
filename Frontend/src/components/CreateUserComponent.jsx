@@ -13,11 +13,12 @@ class CreateUserComponent extends Component {
       harga_satuan: "",
       lokasi: "",
       deskripsi: "",
+      //isItemAdded: false,
     };
     this.changeNamaBarang = this.changeNamaBarang.bind(this);
     this.changeJumlah = this.changeJumlah.bind(this);
-    this.incrementJumlah = this.incrementJumlah.bind(this);
-    this.decrementJumlah = this.decrementJumlah.bind(this);
+    // this.incrementJumlah = this.incrementJumlah.bind(this);
+    // this.decrementJumlah = this.decrementJumlah.bind(this);
     this.changeHargaSatuan = this.changeHargaSatuan.bind(this);
     this.changeLokasi = this.changeLokasi.bind(this);
     this.changeDeskripsi = this.changeDeskripsi.bind(this);
@@ -59,10 +60,12 @@ class CreateUserComponent extends Component {
     // step 5
     if (this.state.id === "_add") {
       UserService.createUser(user).then((res) => {
+        window.alert("Item added successfully");
         this.props.history.push("/users");
       });
     } else {
       UserService.updateUser(user, this.state.id).then((res) => {
+        window.alert("Item updated successfully");
         this.props.history.push("/users");
       });
     }
@@ -76,16 +79,20 @@ class CreateUserComponent extends Component {
   //   this.setState({ jumlah: event.target.value });
   // };
 
+  changeJumlah = (event) => {
+    const newValue = event.target.value;
+  
+    this.setState({ jumlah: newValue });
+  };
+
   // changeJumlah = (event) => {
   //   const newValue = event.target.value;
   
-  //   this.setState({ jumlah: newValue });
+  //   // If you want to allow only numeric input
+  //   const numericValue = parseInt(newValue, 10);
+  
+  //   this.setState({ jumlah: numericValue });
   // };
-
-  changeJumlah = (event) => {
-    const newValue = parseInt(event.target.value, 10);
-    this.setState({ jumlah: newValue });
-  };
   
   incrementJumlah = () => {
     this.setState((prevState) => ({
@@ -181,7 +188,7 @@ class CreateUserComponent extends Component {
                     type="button"
                     className="btn btn-outline-secondary"
                     onClick={this.decrementJumlah}
-                    //onChange={this.changeJumlah}
+                    onChange={this.changeJumlah}
                   >
                     -
                   </button>
@@ -191,13 +198,12 @@ class CreateUserComponent extends Component {
                     className="form-control"
                     value={this.state.jumlah}
                     onChange={this.changeJumlah}
-                    //readOnly
                   />
                   <button
                     type="button"
                     className="btn btn-outline-secondary"
                     onClick={this.incrementJumlah}
-                    //onChange={this.changeJumlah}
+                    onChange={this.changeJumlah}
                   >
                     +
                   </button>
@@ -262,3 +268,4 @@ class CreateUserComponent extends Component {
 }
 
 export default CreateUserComponent;
+
