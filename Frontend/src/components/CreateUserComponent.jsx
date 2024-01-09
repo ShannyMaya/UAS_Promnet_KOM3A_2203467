@@ -9,15 +9,15 @@ class CreateUserComponent extends Component {
       // step 2
       id: this.props.match.params.id,
       nama_barang: "",
-      jumlah: "",
+      jumlah: 0,
       harga_satuan: "",
       lokasi: "",
       deskripsi: "",
     };
     this.changeNamaBarang = this.changeNamaBarang.bind(this);
     this.changeJumlah = this.changeJumlah.bind(this);
-    // this.incrementJumlah = this.incrementJumlah.bind(this);
-    // this.decrementJumlah = this.decrementJumlah.bind(this);
+    this.incrementJumlah = this.incrementJumlah.bind(this);
+    this.decrementJumlah = this.decrementJumlah.bind(this);
     this.changeHargaSatuan = this.changeHargaSatuan.bind(this);
     this.changeLokasi = this.changeLokasi.bind(this);
     this.changeDeskripsi = this.changeDeskripsi.bind(this);
@@ -44,6 +44,9 @@ class CreateUserComponent extends Component {
   }
   saveOrUpdateUser = (e) => {
     e.preventDefault();
+
+    //this.setState({ jumlah: this.state.jumlah });
+
     let user = {
         nama_barang: this.state.nama_barang,
         jumlah: this.state.jumlah,
@@ -69,19 +72,64 @@ class CreateUserComponent extends Component {
     this.setState({ nama_barang: event.target.value });
   };
 
+  // changeJumlah = (event) => {
+  //   this.setState({ jumlah: event.target.value });
+  // };
+
+  // changeJumlah = (event) => {
+  //   const newValue = event.target.value;
+  
+  //   this.setState({ jumlah: newValue });
+  // };
+
   changeJumlah = (event) => {
-    this.setState({ jumlah: event.target.value });
+    const newValue = parseInt(event.target.value, 10);
+    this.setState({ jumlah: newValue });
   };
-  //incrementJumlah = () => {
-    //this.setState((prevState) => ({
-      //jumlah: prevState.jumlah + 1,
-    //}));
-  //};
-  //decrementJumlah = () => {
-    //this.setState((prevState) => ({
-      //jumlah: Math.max(1, prevState.jumlah - 1),
-    //}));
-  //};
+  
+  incrementJumlah = () => {
+    this.setState((prevState) => ({
+      jumlah: prevState.jumlah + 1,
+    }));
+  };
+
+  decrementJumlah = () => {
+    if (this.state.jumlah > 0) {
+      this.setState((prevState) => ({
+        jumlah: prevState.jumlah - 1,
+      }));
+    }
+  };
+
+  // changeJumlah = (value) => {
+  //   this.setState((prevState) => ({
+  //     jumlah: Math.max(prevState.jumlah + value, 0), // Ensure the quantity is not negative
+  //   }));
+  // };
+  // changeJumlah = (event) => {
+  //   this.setState({ jumlah: event.target.value });
+  // };
+
+  // incrementJumlah = () => {
+  //   this.setState((prevState) => ({
+  //     jumlah: prevState.jumlah + 1,
+  //   }), () => {
+  //     // Trigger onChange after state is updated
+  //     this.changeJumlah({ target: { value: this.state.jumlah } });
+  //   });
+  // };
+
+  // decrementJumlah = () => {
+  //   if (this.state.jumlah > 0) {
+  //     this.setState((prevState) => ({
+  //       jumlah: prevState.jumlah - 1,
+  //     }), () => {
+  //       // Trigger onChange after state is updated
+  //       this.changeJumlah({ target: { value: this.state.jumlah } });
+  //     });
+  //   }
+  // };
+
   changeHargaSatuan = (event) => {
     this.setState({ harga_satuan: event.target.value });
   };
@@ -128,43 +176,32 @@ class CreateUserComponent extends Component {
                   </div>
                   <div className="form-group">
                     <label> Jumlah: </label>
-                    <input
-                      placeholder="Jumlah"
-                      name="jumlah"
-                      className="form-control"
-                      value={this.state.jumlah}
-                      onChange={this.changeJumlah}
-                      
-                    />
-                    {/* <div className="input-group-prepend">
+                    <div className="input-group">
                     <button
-                      type="button"
-                      className="btn btn-outline-secondary"
-                      onClick={this.decrementJumlah}
-                    >
-                      -
-                    </button>
-                    <div className="input-group-append">
-                    <button
-                      type="button"
-                      className="btn btn-outline-secondary"
-                      onClick={this.incrementJumlah}
-                    >
-                      +
-                    </button>
-            </div>
-            </div>
-                  </div>
-                  <div className="wrapper">
-                      <span className="minus" onClick={this.decrementJumlah}>
-                        -
-                      </span>
-                      <span className="num" name="jumlah">
-                        {this.state.jumlah}
-                      </span>
-                     <span className="plus" onClick={this.incrementJumlah}>
-                        +
-                      </span> */}
+                    type="button"
+                    className="btn btn-outline-secondary"
+                    onClick={this.decrementJumlah}
+                    //onChange={this.changeJumlah}
+                  >
+                    -
+                  </button>
+                  <input
+                    placeholder="Jumlah"
+                    name="jumlah"
+                    className="form-control"
+                    value={this.state.jumlah}
+                    onChange={this.changeJumlah}
+                    //readOnly
+                  />
+                  <button
+                    type="button"
+                    className="btn btn-outline-secondary"
+                    onClick={this.incrementJumlah}
+                    //onChange={this.changeJumlah}
+                  >
+                    +
+                  </button>
+                    </div>
                   </div>
                   <div className="form-group">
                     <label> Harga Satuan: </label>
