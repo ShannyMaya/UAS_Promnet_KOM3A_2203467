@@ -13,8 +13,19 @@ class ListUserComponent extends Component {
         this.deleteUser = this.deleteUser.bind(this);
     }
 
+    deleteUserWithConfirmation(id) {
+        const isConfirmed = window.confirm("Are you sure you want to delete this item?");
+        
+        if (isConfirmed) {
+          // If the user confirms, proceed with the deletion
+          this.deleteUser(id);
+        }
+        // If the user cancels, do nothing
+      };
+
     deleteUser(id){
         UserService.deleteUser(id).then( res => {
+            console.log("User deleted successfully");
             this.setState({users: 
                 this.state.users.
                 filter(user => user.id !== id)});
@@ -91,7 +102,8 @@ class ListUserComponent extends Component {
                                className="btn btn-info">Update 
                                  </button>
                        <button style={{marginLeft: "10px"}}
-                          onClick={ () => this.deleteUser(user.id)} 
+                          //onClick={ () => this.deleteUser(user.id)} 
+                          onClick={() => this.deleteUserWithConfirmation(user.id)}
                              className="btn btn-danger">Delete 
                                  </button>
                        <button style={{marginLeft: "10px"}} 
@@ -105,6 +117,12 @@ class ListUserComponent extends Component {
                             </tbody>
                         </table>
                  </div>
+            </div>
+        )
+    }
+}
+
+export default ListUserComponent
             </div>
         )
     }
